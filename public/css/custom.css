@@ -1,0 +1,201 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    background-color: black;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.logo-section {
+    width: 100%;
+    background-color: #151515;
+    font-family: 'micro 5', "cursive";
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: 40px;
+    letter-spacing: 3px;
+}
+
+.logo-section .pixel {
+    color: white;
+}
+
+.logo-section .forge {
+    color: #FAF500;
+}
+
+.login-content, .signup-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #151515;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+}
+
+.login-image, .signup-image {
+    width: 100%; /* Adjust as needed to fit the layout */
+    max-width: 1000px; /* Set a max width for better control */
+    margin-right: 20px; /* Space between the image and form */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-image {
+    width: 100%; /* Adjust as needed to fit the layout */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-image img {
+    width: 100%;
+    max-height: 25vh;
+}
+
+.login-image img {
+    width: 100%; /* Image will fit within the .login-image div */
+    height: auto;
+    display: block;
+    border-radius: 0px;
+}
+
+.login-form, .signup-form {
+    width: 30%;
+    color: white;
+}
+
+.sign-in-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-guest, .btn-signup, .btn-have {
+    color: white;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+    text-decoration: underline;
+    font-family: 'Arial', sans-serif;
+}
+
+.btn-login, .btn-register {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #FAF500;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-signup:hover, .btn-guest:hover, .btn-have:hover {
+    color: #FAF500;
+}
+
+.btn-login:hover, .btn-register:hover {
+    background-color: #FFCC00;
+}
+
+.forgot-password {
+    color: white;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+    text-decoration: underline;
+    font-family: 'Arial', sans-serif;
+}
+
+.forgot-password:hover {
+    color: #FAF500;
+}
+
+.top-section {
+    background-color: #9A00D0;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    font-family: 'Times New Roman', monospace;
+    text-align: center;
+    color: #fefefe;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fefefe;
+    color: black;
+}
+
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"] {
+    outline: none;
+    border-color: #FAF500;
+    box-shadow: 0 0 5px rgba(250, 245, 0, 0.5);
+}
+
+.email-title, .password-title, .name, .email-title-s, .password-title-s, .confirm-password {
+    font-family: 'Arial', sans-serif;
+}
+
+.search-section {
+    background-color: black;
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    font-family: 'Times New Roman', monospace;
+    text-align: left;
+    color: #fefefe;
+}
+
+.nav {
+    background-color: #151515;
+}
+
+.nav-home, .nav-about, .nav-gallery {
+    color: #9A00D0;
+}
+
+.nav-home:hover, .nav-about:hover, .nav-gallery:hover {
+    color: #FAF500;
+}
+
+
