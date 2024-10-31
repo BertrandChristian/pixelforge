@@ -7,7 +7,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Starter</title>
+    <title>@yield('title', 'Default Title')</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('image/logo_pixelforge.png') }}" type="image/x-icon">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,11 +25,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
   <!-- Navbar -->
-  @include('layouts.navbar')
+{{--  @include('layouts.navbar')--}}
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  @include('layouts.sidebar')
+{{--  @include('layouts.sidebar')--}}
 
   <!-- Content Wrapper. Contains page content -->
   @yield('web-content')
@@ -43,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  @include('layouts.footer')
+{{--  @include('layouts.footer')--}}
 </div>
 <!-- ./wrapper -->
 
