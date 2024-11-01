@@ -9,7 +9,7 @@
 <br>
 <div class="signup-content">
     <div class="signup-image">
-        <!-- Background image should be handled in CSS -->
+        <img src="{{ asset('image/loginimage2.jpg') }}" alt="Your Image Description">
     </div>
 
     <div class="signup-form">
@@ -67,7 +67,7 @@
                     {{ __('Already registered?') }}
                 </a>
                 <br>
-                <div class="actions mt-4" href="{{ route("login") }}">
+                <div class="actions mt-4" href="{{ route('login') }}">
                     <button class="btn-register">{{ __('Register') }}</button>
                 </div>
             </div>

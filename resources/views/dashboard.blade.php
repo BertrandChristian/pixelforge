@@ -1,6 +1,14 @@
 @extends('layouts.master')
 @section('title', 'Home')
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+<div class="top-section">
+    HOME
+</div>
+<br>
+<div class="search-section">
+    <input type="text" placeholder="🔍 Search">
+</div>
+<br>
 <x-app-layout>
     <div class="home-image">
         <img src="{{ asset('image/bloom.gif') }}" alt="Banner Image">

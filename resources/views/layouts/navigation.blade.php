@@ -1,15 +1,6 @@
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 <nav x-data="{ open: false }" class="nav">
 
-    <div class="top-section">
-        HOME
-    </div>
-    <br>
-    <div class="search-section">
-        <input type="text" placeholder="🔍 Search">
-    </div>
-    <br>
-
     <!-- Primary Navigation Menu -->
     <div class="w-full px-0">
         <div class="flex justify-between h-16 tengah">

@@ -4,7 +4,7 @@
 </div>
 
 <!-- Logo Section (PixelForge Logo) -->
-<div class="logo-section">
+<div class="logo-section-2">
     <h1><span class="pixel">PIXEL</span><span class="forge">FORGE</span></h1>
 </div>
 
