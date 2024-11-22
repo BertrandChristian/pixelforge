@@ -13,7 +13,7 @@
     </div>
 
     <div class="signup-form">
-        <h2 class="sign-in-title">{{ __('SIGN IN') }}</h2>
+        <h2 class="sign-in-title">{{ __('SIGN UP') }}</h2>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
