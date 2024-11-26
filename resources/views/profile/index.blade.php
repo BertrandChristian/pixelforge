@@ -2,29 +2,21 @@
 @section('title', 'Profile')
 
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+<div class="top-section">
+    PROFILE
+</div>
 
+<div class="search-section">
+    <input type="text" placeholder="🔍 Search">
+</div>
 <x-app-layout>
     <div class="profile-container">
-        <!-- Top Section: Title -->
-        <div class="top-section">
-            PROFILE
-        </div>
-
-        <!-- Search Section -->
-        <div class="search-section">
-            <input type="text" placeholder="🔍 Search">
-        </div>
-
-        <!-- Main Profile Section -->
         <div class="profile-main">
-            <!-- Profile Header -->
             <div class="profile-header">
                 <div class="profile-info">
-                    <div class="profile-image">
-                        <img src="{{ asset('images/default-profile.png') }}" alt="Profile Picture">
-                    </div>
+                    <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}" alt="Profile Image" class="profile-image">
                     <div class="profile-name">
-                        <h2>Name</h2>
+                        <h2>{{ $user->name }}</h2>
                     </div>
                 </div>
                 <div class="profile-buttons">
@@ -37,9 +29,7 @@
                 </div>
             </div>
 
-            <!-- Featured Art and About Section -->
             <div class="content-section">
-                <!-- Featured Art Section -->
                 <div class="featured-art">
                     <h3>Featured Art</h3>
                     <div class="art-gallery">
@@ -52,17 +42,9 @@
                     </div>
                 </div>
 
-                <!-- About Section -->
                 <div class="about-section">
                     <h3>About</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut augue nisi, molestie vel ex sed,
-                        efficitur efficitur metus. Donec nulla libero, molestie a enim in, ullamcorper tincidunt odio.
-                        Pellentesque iaculis, purus quis viverra eleifend, eros mi blandit nunc, vel dictum eros ex vel metus.
-                        Praesent vel tincidunt lacus. Ut at purus pulvinar, posuere nisl ac, dapibus augue. Praesent cursus
-                        lacus tellus, vitae consectetur sem laoreet et. Ut vestibulum purus a ex molestie, ut vehicula erat
-                        euismod. Donec sem augue, hendrerit vel urna eget, gravida ultrices velit.
-                    </p>
+                    <p>{{ $user->about }}</p>
                 </div>
             </div>
         </div>

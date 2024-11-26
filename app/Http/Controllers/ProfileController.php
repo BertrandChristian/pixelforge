@@ -2,69 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Informasi;
-use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-
     public function index()
     {
-        return view('profile.index',[
-            'es' => User::all(),
-        ]);
+        $user = Auth::user();
+        return view('profile.index', compact('user'));
     }
 
-    public function edit(Request $request): View
+    public function edit()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        return view('profile.edit', compact('user'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'about' => 'nullable|string',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => 'nullable|required_with:password|current_password',
+            'password' => 'nullable|min:8|confirmed',
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $imagename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('profile_images', $imagename, 'public');
+            $user->profile_image = $imagename;
+
+            $user->profile_image = $imagename;
         }
 
-        $request->user()->save();
+        $user->name = $request->name;
+        $user->about = $request->about;
+        $user->email = $request->email;
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy()
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
+        $user = Auth::user();
         Auth::logout();
+
+        if ($user->profile_image && Storage::exists('profile_images/' . $user->profile_image)) {
+            Storage::delete('profile_images/' . $user->profile_image);
+        }
 
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect('/')->with('success', 'Account deleted successfully.');
     }
 }
