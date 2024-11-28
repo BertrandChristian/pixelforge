@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="profile-buttons">
-                    <a href="/upload" class="button-link">
+                    <a href="{{route('art.index')}}" class="button-link">
                         <button class="upload-button">UPLOAD</button>
                     </a>
                     <a href="{{route('profile.edit')}}" class="button-link">
@@ -33,12 +33,13 @@
                 <div class="featured-art">
                     <h3>Featured Art</h3>
                     <div class="art-gallery">
-                        <img src="{{ asset('images/art1.png') }}" alt="Art 1">
-                        <img src="{{ asset('images/art2.png') }}" alt="Art 2">
-                        <img src="{{ asset('images/art3.png') }}" alt="Art 3">
-                        <img src="{{ asset('images/art4.png') }}" alt="Art 4">
-                        <img src="{{ asset('images/art5.png') }}" alt="Art 5">
-                        <img src="{{ asset('images/art6.png') }}" alt="Art 6">
+                        <!-- Loop through the arts to display images -->
+                        @foreach ($arts as $art)
+                            <div class="gallery-item">
+                                <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
+                                <p>{{ $art->name }}</p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 

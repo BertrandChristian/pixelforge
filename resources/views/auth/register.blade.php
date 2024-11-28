@@ -2,11 +2,9 @@
 <div class="top-section">
     <h5>Sign Up</h5>
 </div>
-<br>
-<div class="logo-section">
+<div class="logo-section-2">
     <h1><span class="pixel">PIXEL</span><span class="forge">FORGE</span></h1>
 </div>
-<br>
 <div class="signup-content">
     <div class="signup-image">
         <img src="{{ asset('image/loginimage2.jpg') }}" alt="Your Image Description">

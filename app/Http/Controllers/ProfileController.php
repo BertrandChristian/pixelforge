@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Art;
+use App\Models\Beasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +14,9 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('profile.index', compact('user'));
+        $arts = Art::where('users_id', $user->id)->get(); // Fetch user's arts
+        return view('profile.index', ['arts' => $arts], compact('user'));
+
     }
 
     public function edit()

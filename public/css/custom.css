@@ -538,15 +538,6 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"] {
     background-color: #e6c700;
 }
 
-.finish-button {
-    background-color: #ffd900;
-    padding: 10px 20px;
-    border: none;
-    color: black;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
 .delete-account-button {
     background-color: #f44336;
     padding: 10px 20px;
@@ -566,4 +557,69 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"] {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ccc;
+}
+
+/* Gallery Section */
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+}
+.gallery-item {
+    width: 200px;
+    text-align: center;
+}
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+.gallery-item p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Profile Form Section */
+.profile-form-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.profile-form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #444;
+    color: white;
+    outline: none;
+}
+
+textarea {
+    resize: none;
 }
