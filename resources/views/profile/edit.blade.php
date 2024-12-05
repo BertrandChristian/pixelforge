@@ -36,8 +36,8 @@
                 <textarea id="about" name="about" class="form-textarea">{{ old('about', Auth::user()->about) }}</textarea>
 
                 <!-- Update Email Section -->
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-input" value="{{ old('email', Auth::user()->email) }}">
+{{--                <label for="email" class="form-label">Email</label>--}}
+                <input type="email" id="email" name="email" class="form-input" value="{{ old('email', Auth::user()->email) }}" hidden readonly>
 
                 <!-- Update Password Section -->
                 <label for="current_password" class="form-label">Current Password</label>

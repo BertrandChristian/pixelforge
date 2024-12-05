@@ -14,16 +14,14 @@ class ArtController extends Controller
      */
     public function index()
     {
-        // Fetch all art entries uploaded by the current user
         $arts = Art::where('users_id', Auth::id())->get();
 
-        return view('art.index', compact('arts')); // Assumes the profile section's view is 'profile.art'
+        return view('art.index', compact('arts'));
     }
 
     public function view()
     {
-        // Fetch all uploaded art records
-        $arts = Art::where('users_id', Auth::id())->get();
+        $arts = Art::all();
 
         return view('gallery', compact('arts'));
     }
@@ -47,12 +45,12 @@ class ArtController extends Controller
             return back()->withErrors('File upload failed. Please try again.');
         }
 
-        // Save to database
+
         $art = new Art();
-        $art->art_picture = $filePath; // Save file path
-        $art->name = $request->input('art_name'); // Use correct input name
+        $art->art_picture = $filePath;
+        $art->name = $request->input('art_name');
         $art->description = $request->input('description');
-        $art->users_id = Auth::id(); // Save current user's ID
+        $art->users_id = Auth::id();
         $art->save();
 
         return redirect()->route('art.index')->with('success', 'Art uploaded successfully!');

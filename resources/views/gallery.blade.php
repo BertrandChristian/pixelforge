@@ -11,10 +11,7 @@ extends('layouts.master')
 </div>
 
 <x-app-layout>
-
-    <!-- Gallery Section -->
     <div class="gallery-container">
-        <!-- Loop through the arts to display images -->
         @foreach ($arts as $art)
             <div class="gallery-item">
                 <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
