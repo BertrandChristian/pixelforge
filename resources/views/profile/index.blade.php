@@ -14,7 +14,18 @@
         <div class="profile-main">
             <div class="profile-header">
                 <div class="profile-info">
-                    <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}" alt="Profile Image" class="profile-image">
+                    <!-- Form for updating profile image -->
+                    <form id="profile-image-form" action="{{ route('profile.update_image') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <input type="file" id="profile-image-input" name="profile_image" accept="image/*" style="display: none;" onchange="submitProfileImageForm()">
+                        <img
+                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                            alt="Profile Image"
+                            class="profile-image"
+                            onclick="document.getElementById('profile-image-input').click()"
+                        >
+                    </form>
                     <div class="profile-name">
                         <h2>{{ $user->name }}</h2>
                     </div>
@@ -51,3 +62,9 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function submitProfileImageForm() {
+        document.getElementById('profile-image-form').submit();
+    }
+</script>

@@ -21,12 +21,6 @@
             @csrf
             @method('PATCH')
 
-            <!-- Profile Image Section -->
-            <div class="profile-image-section">
-                <label for="upload" class="profile-label">Profile's Icon</label>
-                <input type="file" name="profile_image" id="profile_image" class="upload-input" accept="image/*">
-            </div>
-
             <!-- Profile Form Section -->
             <div class="profile-form-section">
                 <label for="name" class="form-label">Name</label>

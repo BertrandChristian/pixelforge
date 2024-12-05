@@ -73,4 +73,29 @@ class ProfileController extends Controller
 
         return redirect('/')->with('success', 'Account deleted successfully.');
     }
+
+    public function updateImage(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        // Delete old profile image if exists
+        if ($user->profile_image && Storage::exists('profile_images/' . $user->profile_image)) {
+            Storage::delete('profile_images/' . $user->profile_image);
+        }
+
+        // Store the new profile image
+        $imageName = time() . '.' . $request->profile_image->extension();
+        $request->profile_image->storeAs('profile_images', $imageName, 'public');
+
+        // Update the user's profile image
+        $user->profile_image = $imageName;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile image updated successfully.');
+    }
+
 }
