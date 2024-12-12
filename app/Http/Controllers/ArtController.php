@@ -61,22 +61,17 @@ class ArtController extends Controller
     /**
      * Delete an uploaded art record.
      */
-    public function destroy(Art $art)
+    public function destroy($art_id)
     {
-        // Check ownership
+        $art = Art::where('art_id', $art_id)->firstOrFail();
+
         if ($art->users_id !== Auth::id()) {
-            return redirect()->route('art.index')->withErrors('You are not authorized to delete this art.');
+            return redirect()->route('gallery')->with('error', 'You are not authorized to delete this art.');
         }
 
-        // Delete the file
-        if ($art->art_picture) {
-            Storage::disk('public')->delete($art->art_picture);
-        }
-
-        // Delete the record
         $art->delete();
 
-        return redirect()->route('art.index')->with('success', 'Art deleted successfully!');
+        return redirect()->route('gallery')->with('success', 'Art deleted successfully.');
     }
 
 

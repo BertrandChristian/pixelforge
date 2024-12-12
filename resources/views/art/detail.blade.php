@@ -20,20 +20,30 @@
         </div>
         <div class="art-info-section">
             <div class="art-details">
-                @if ($art->users && $art->users->profile_image)
-                    <img src="{{ asset('storage/profile_images/' . $art->users->profile_image) }}"
-                         alt="{{ $art->users->name }}"
-                         class="profile-icon">
-                @else
-                    <p class="profile-placeholder">Profile Image</p>
-                @endif
-                <h2>{{ $art->users ? $art->users->name : 'Unknown User' }}</h2>
+                <div class="profile-section">
+                    @if ($art->users && $art->users->profile_image)
+                        <img src="{{ asset('storage/profile_images/' . $art->users->profile_image) }}"
+                             alt="{{ $art->users->name }}"
+                             class="profile-icon">
+                    @else
+                        <p class="profile-placeholder">Profile Image</p>
+                    @endif
+                    <div class="profile-name">
+                        <h2>{{ $art->users ? $art->users->name : 'Unknown User' }}</h2>
+                    </div>
+                </div>
                 <h3>{{ $art->name }}</h3>
                 <p>{{ $art->description }}</p>
                 <p><strong>0</strong></p>
             </div>
             <div class="art-actions">
-                <a href="" class="delete-button">DELETE</a>
+                @if ($art->users_id === Auth::id())
+                    <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this art?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="delete-button">DELETE</button>
+                    </form>
+                @endif
                 <a href="" class="edit-button">EDIT</a>
             </div>
         </div>
