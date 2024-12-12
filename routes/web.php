@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/art', [\App\Http\Controllers\ArtController::class, 'store'])->name('art.store');
     Route::delete('/art/{art}', [\App\Http\Controllers\ArtController::class, 'destroy'])->name('art.destroy');
     Route::get('/art/{art}', [\App\Http\Controllers\ArtController::class, 'show'])->name('art.show');
+    Route::get('art/{art}/edit', [\App\Http\Controllers\ArtController::class, 'edit'])->name('art.edit');
+    Route::put('art/{art}', [\App\Http\Controllers\ArtController::class, 'update'])->name('art.update');
 
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home-list');
 });

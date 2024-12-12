@@ -43,8 +43,8 @@
                         @method('DELETE')
                         <button type="submit" class="delete-button">DELETE</button>
                     </form>
+                    <a href="{{ route('art.edit', $art->art_id) }}" class="edit-button">EDIT</a>
                 @endif
-                <a href="" class="edit-button">EDIT</a>
             </div>
         </div>
     </div>
