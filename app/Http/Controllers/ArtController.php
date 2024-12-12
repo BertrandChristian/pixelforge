@@ -14,7 +14,9 @@ class ArtController extends Controller
      */
     public function index()
     {
-        $arts = Art::where('users_id', Auth::id())->get();
+//        $arts = Art::where('users_id', Auth::id())->get();
+        $arts = Art::select('art_id', 'name', 'art_picture')->get();
+
 
         return view('art.index', compact('arts'));
     }
@@ -75,5 +77,16 @@ class ArtController extends Controller
         $art->delete();
 
         return redirect()->route('art.index')->with('success', 'Art deleted successfully!');
+    }
+
+
+    public function show($art_id)
+    {
+        $art = Art::with('users')->find($art_id);
+
+        if (!$art) {
+            return redirect()->route('gallery')->with('error', 'Art not found');
+        }
+        return view('art.detail', compact('art'));
     }
 }

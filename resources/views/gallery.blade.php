@@ -1,5 +1,5 @@
-extends('layouts.master')
-@section('title', 'Profile')
+@extends('layouts.master')
+@section('title', 'Gallery')
 
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 <div class="top-section">
@@ -14,7 +14,9 @@ extends('layouts.master')
     <div class="gallery-container">
         @foreach ($arts as $art)
             <div class="gallery-item">
-                <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
+                <a href="{{ route('art.show', $art->art_id) }}">
+                    <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
+                </a>
                 <p>{{ $art->name }}</p>
             </div>
         @endforeach

@@ -623,3 +623,70 @@ textarea {
 textarea {
     resize: none;
 }
+
+.detail-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 30px;
+}
+
+.art-image-section {
+    flex: 2;
+}
+
+.art-detail-image {
+    width: 100%;
+    height: auto;
+    border: 2px solid #000;
+}
+
+.art-info-section {
+    flex: 1;
+    background-color: #111;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.profile-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.art-details h2 {
+    margin: 5px 0;
+}
+
+.art-details h3 {
+    font-size: 24px;
+    color: #ffd700;
+}
+
+.art-details p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.art-actions .delete-button,
+.art-actions .edit-button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+}
+
+.art-actions .delete-button {
+    background-color: #ff4c4c;
+}
+
+.art-actions .edit-button {
+    background-color: #ffc107;
+}

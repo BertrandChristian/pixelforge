@@ -3,7 +3,7 @@
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
 <div class="top-section">
-    PROFILE
+    ART
 </div>
 <br>
 
