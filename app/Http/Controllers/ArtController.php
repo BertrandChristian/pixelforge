@@ -39,7 +39,6 @@ class ArtController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        // Handle file upload
         if ($request->hasFile('art_picture')) {
             $file = $request->file('art_picture');
             $filePath = $file->store('uploads/art', 'public');
@@ -47,16 +46,17 @@ class ArtController extends Controller
             return back()->withErrors('File upload failed. Please try again.');
         }
 
-
         $art = new Art();
         $art->art_picture = $filePath;
         $art->name = $request->input('art_name');
         $art->description = $request->input('description');
-        $art->users_id = Auth::id();
         $art->save();
+
+        $art->users()->attach(Auth::id(), ['like_status' => false]);
 
         return redirect()->route('art.index')->with('success', 'Art uploaded successfully!');
     }
+
 
     /**
      * Delete an uploaded art record.
@@ -65,9 +65,11 @@ class ArtController extends Controller
     {
         $art = Art::where('art_id', $art_id)->firstOrFail();
 
-        if ($art->users_id !== Auth::id()) {
+        if (!$art->users->contains('id', Auth::id())) {
             return redirect()->route('gallery')->with('error', 'You are not authorized to delete this art.');
         }
+
+        $art->users()->detach();
 
         $art->delete();
 
@@ -75,51 +77,62 @@ class ArtController extends Controller
     }
 
 
-    public function show($art_id)
-    {
-        $art = Art::with('users')->find($art_id);
 
-        if (!$art) {
-            return redirect()->route('gallery')->with('error', 'Art not found');
-        }
-        return view('art.detail', compact('art'));
+
+    public function show($id)
+    {
+        $art = Art::with('usersArt')->findOrFail($id);
+
+        $userLikes = $art->usersArt()->where('users_id', Auth::id())->where('like_status', true)->count();
+
+        return view('art.detail', compact('art', 'userLikes'));
     }
 
     public function update(Request $request, $art_id)
     {
         $request->validate([
-            'art_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'art_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
         $art = Art::findOrFail($art_id);
 
-        if ($art->users_id !== Auth::id()) {
+        if ($art->users->first()->id !== Auth::id()) {
             return redirect()->route('gallery')->with('error', 'You are not authorized to edit this art.');
         }
 
-        if ($request->hasFile('art_picture')) {
-            $file = $request->file('art_picture');
-            $filePath = $file->store('uploads/art', 'public');
-            $art->art_picture = $filePath;
-        }
-
-        $art->name = $request->input('art_name');
+        $art->name = $request->input('name');
         $art->description = $request->input('description');
+
         $art->save();
 
         return redirect()->route('art.index')->with('success', 'Art updated successfully!');
     }
 
+
     public function edit($art_id)
     {
         $art = Art::findOrFail($art_id);
-
-        if ($art->users_id !== Auth::id()) {
+        if ($art->users->first()->id !== Auth::id()) {
             return redirect()->route('gallery')->with('error', 'You are not authorized to edit this art.');
         }
-
         return view('art.edit', compact('art'));
     }
+
+    public function like($art_id)
+    {
+        $art = Art::findOrFail($art_id);
+
+        $user = Auth::user();
+        $alreadyLiked = $art->users->contains($user);
+
+        if ($alreadyLiked) {
+            $art->users()->updateExistingPivot($user->id, ['like_status' => false]);
+        } else {
+            $art->users()->attach($user->id, ['like_status' => true]);
+        }
+
+        return redirect()->route('art.detail', $art_id);
+    }
+
 }

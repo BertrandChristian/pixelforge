@@ -48,6 +48,14 @@ class User extends Authenticatable
 
     public function arts()
     {
-        return $this->hasMany(Art::class);
+        return $this->belongsToMany(Art::class, 'users_art', 'users_id', 'art_art_id')
+            ->withPivot('like_status')
+            ->withTimestamps();
     }
+    public function usersArt()
+    {
+        return $this->belongsToMany(Art::class, 'users_art', 'users_id', 'art_art_id')
+            ->withPivot('like_status');
+    }
+
 }

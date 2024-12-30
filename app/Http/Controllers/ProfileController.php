@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Art;
 use App\Models\Beasiswa;
+use App\Models\UserArt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,9 +15,12 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $arts = Art::where('users_id', $user->id)->get();
-        return view('profile.index', ['arts' => $arts], compact('user'));
 
+        $arts = Art::whereHas('usersArt', function ($query) use ($user) {
+            $query->where('users_id', $user->id)->where('like_status', 1);
+        })->get();
+
+        return view('profile.index', compact('arts', 'user'));
     }
 
     public function edit()
@@ -82,20 +86,37 @@ class ProfileController extends Controller
 
         $user = auth()->user();
 
-        // Delete old profile image if exists
         if ($user->profile_image && Storage::exists('profile_images/' . $user->profile_image)) {
             Storage::delete('profile_images/' . $user->profile_image);
         }
 
-        // Store the new profile image
         $imageName = time() . '.' . $request->profile_image->extension();
         $request->profile_image->storeAs('profile_images', $imageName, 'public');
 
-        // Update the user's profile image
         $user->profile_image = $imageName;
         $user->save();
 
         return redirect()->back()->with('success', 'Profile image updated successfully.');
+    }
+
+    public function likeArt(Request $request, $artId)
+    {
+        $userId = Auth::id();
+
+        $userArt = UserArt::where('users_id', $userId)->where('art_id', $artId)->first();
+
+        if ($userArt) {
+            $userArt->like_status = !$userArt->like_status;
+            $userArt->save();
+        } else {
+            UserArt::create([
+                'users_id' => $userId,
+                'art_id' => $artId,
+                'like_status' => true,
+            ]);
+        }
+
+        return back()->with('success', 'Your like has been updated.');
     }
 
 }

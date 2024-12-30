@@ -15,13 +15,25 @@ class Art extends Model
         'name',
         'like',
         'description',
-        'users_id',
     ];
 
     protected $primaryKey = 'art_id';
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'users_id');
+        return $this->belongsToMany(User::class, 'users_art', 'art_art_id', 'users_id')
+            ->withPivot('like_status');
+    }
+    public function userLikes()
+    {
+        return $this->belongsToMany(User::class, 'users_art')
+            ->withPivot('like_status')
+            ->wherePivot('like_status', true);
+    }
+
+    public function usersArt()
+    {
+        return $this->belongsToMany(User::class, 'users_art', 'art_art_id', 'users_id')
+            ->withPivot('like_status');
     }
 }

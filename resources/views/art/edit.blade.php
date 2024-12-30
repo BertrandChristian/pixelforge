@@ -24,26 +24,22 @@
             @csrf
             @method('PUT')
 
-            <!-- Art's Picture Section -->
             <div class="profile-image-section">
                 <label for="art-picture" class="profile-label">Art's Picture</label>
-                <input type="file" id="art-picture" name="art_picture" class="upload-input" accept="image/*">
-                <!-- Display current art picture if available -->
                 @if ($art->art_picture)
                     <img src="{{ asset('storage/' . $art->art_picture) }}" alt="Art Picture" class="current-art-image">
+                @else
+                    <p>No art picture available.</p>
                 @endif
             </div>
 
-            <!-- Art's Name Section -->
             <div class="profile-form-section">
                 <label for="art-name" class="form-label">Art's Name</label>
-                <input type="text" id="art-name" name="art_name" class="form-input" placeholder="Enter Art's Name" value="{{ old('art_name', $art->name) }}">
+                <input type="text" id="name" name="name" class="form-input" placeholder="Enter Art's Name" value="{{ old('name', $art->name) }}">
 
-                <!-- Description Section -->
                 <label for="description" class="form-label">Description</label>
                 <textarea id="description" name="description" class="form-textarea" rows="4" placeholder="Enter a description...">{{ old('description', $art->description) }}</textarea>
 
-                <!-- Finish Button -->
                 <button type="submit" class="finish-button">Update</button>
             </div>
         </form>
