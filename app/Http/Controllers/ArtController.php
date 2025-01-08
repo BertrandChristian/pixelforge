@@ -83,9 +83,11 @@ class ArtController extends Controller
     {
         $art = Art::with('usersArt')->findOrFail($id);
 
-        $userLikes = $art->usersArt()->where('users_id', Auth::id())->where('like_status', true)->count();
+        $likeCount = $art->usersArt()->wherePivot('like_status', true)->count();
 
-        return view('art.detail', compact('art', 'userLikes'));
+        $userLikes = $art->usersArt()->where('users_id', Auth::id())->wherePivot('like_status', true)->count();
+
+        return view('art.detail', compact('art', 'likeCount', 'userLikes'));
     }
 
     public function update(Request $request, $art_id)
@@ -122,17 +124,18 @@ class ArtController extends Controller
     public function like($art_id)
     {
         $art = Art::findOrFail($art_id);
-
         $user = Auth::user();
-        $alreadyLiked = $art->users->contains($user);
 
-        if ($alreadyLiked) {
-            $art->users()->updateExistingPivot($user->id, ['like_status' => false]);
+        $pivotEntry = $art->users()->where('users.id', $user->id)->first();
+
+        if ($pivotEntry) {
+            $currentStatus = $pivotEntry->pivot->like_status;
+            $art->users()->updateExistingPivot($user->id, ['like_status' => !$currentStatus]);
         } else {
             $art->users()->attach($user->id, ['like_status' => true]);
         }
 
-        return redirect()->route('art.detail', $art_id);
+        return redirect()->route('art.show', $art_id)->with('success', 'Like status updated!');
     }
 
 }

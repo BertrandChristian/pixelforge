@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/art/{art}', [\App\Http\Controllers\ArtController::class, 'show'])->name('art.show');
     Route::get('art/{art}/edit', [\App\Http\Controllers\ArtController::class, 'edit'])->name('art.edit');
     Route::put('art/{art}', [\App\Http\Controllers\ArtController::class, 'update'])->name('art.update');
-    Route::post('/art/{art}/like', [\App\Http\Controllers\ArtController::class, 'likeArt'])->name('art.like');
+    Route::post('/art/{art}/like', [\App\Http\Controllers\ArtController::class, 'like'])->name('art.like');
 
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home-list');
     Route::get('/user', [\App\Http\Controllers\UserController::class, 'index'])->name('user-list');

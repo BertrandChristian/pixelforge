@@ -26,7 +26,7 @@ class Art extends Model
     }
     public function userLikes()
     {
-        return $this->belongsToMany(User::class, 'users_art')
+        return $this->belongsToMany(User::class, 'users_art', 'art_art_id', 'users_id')
             ->withPivot('like_status')
             ->wherePivot('like_status', true);
     }

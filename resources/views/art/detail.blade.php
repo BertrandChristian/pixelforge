@@ -43,17 +43,17 @@
                 </div>
                 <h3>{{ $art->name }}</h3>
                 <p>{{ $art->description }}</p>
-                <p><strong>{{ $art->usersArt->where('like_status', true)->count() }}</strong> Likes</p>
+                <p><strong>{{ $likeCount }}</strong> Likes</p>
 
                 <div class="like-section">
                     @auth
                         <form action="{{ route('art.like', ['art' => $art->art_id]) }}" method="POST">
                             @csrf
                             <button type="submit">
-                                @if ($art->usersArt->where('users_id', Auth::id())->where('like_status', true)->count())
-                                    Unlike
+                                @if ($userLikes > 0)
+                                    ⭐
                                 @else
-                                    Like
+                                    ☆
                                 @endif
                             </button>
                         </form>
@@ -62,13 +62,13 @@
             </div>
 
             <div class="art-actions">
-                @if ($art->users->contains('id', Auth::id()))
-                <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this art?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="delete-button">DELETE</button>
-                </form>
-                    <a href="{{ route('art.edit', $art->art_id) }}" class="edit-button">EDIT</a>
+                @if (Auth::check() && Auth::id() === $art->user_id)
+                    <a href="{{ route('art.edit', $art->art_id) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 @endif
             </div>
         </div>
