@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/art/{art}/like', [\App\Http\Controllers\ArtController::class, 'likeArt'])->name('art.like');
 
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home-list');
+    Route::get('/user', [\App\Http\Controllers\UserController::class, 'index'])->name('user-list');
+    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('user-delete');
 });
 
 require __DIR__.'/auth.php';

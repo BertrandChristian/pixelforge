@@ -48,16 +48,23 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                             onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                        @if (Auth::check() && Auth::user()->role === 'admin')
+                            <x-dropdown-link :href="route('user-list')">
+                                {{ __('User list') }}
                             </x-dropdown-link>
-                        </form>
+                        @endif
+
+                        @if (Auth::check())
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-dropdown-link :href="route('logout')"
+                                                 onclick="event.preventDefault();
+                         this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        @endif
                     </x-slot>
                 </x-dropdown>
             </div>
