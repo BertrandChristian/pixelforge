@@ -62,13 +62,26 @@
             </div>
 
             <div class="art-actions">
-                @if (Auth::check() && Auth::id() === $art->user_id)
-                    <a href="{{ route('art.edit', $art->art_id) }}" class="btn btn-primary">Edit</a>
-                    <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                @if (Auth::check())
+                    @if (Auth::user()->arts()->wherePivot('art_art_id', $art->art_id)->wherePivot('ownership_status', 1)->exists())
+                        <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    @endif
+                @endif
+            </div>
+            
+            <div class="art-actions">
+                @if (Auth::check())
+                    @if (Auth::user()->arts()->wherePivot('art_art_id', $art->art_id)->wherePivot('ownership_status', 1)->exists())
+                        <form action="{{ route('art.destroy', $art->art_id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    @endif
                 @endif
             </div>
         </div>

@@ -59,4 +59,10 @@ class User extends Authenticatable
             ->withPivot('like_status');
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+
 }

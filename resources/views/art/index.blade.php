@@ -6,12 +6,6 @@
     ART
 </div>
 <br>
-
-<div class="search-section">
-    <input type="text" placeholder="🔍 Search">
-</div>
-<br>
-
 <x-app-layout>
     @if(session('success'))
         <div class="alert alert-success">

@@ -7,7 +7,9 @@
 </div>
 
 <div class="search-section">
-    <input type="text" placeholder="🔍 Search">
+    <form action="{{ route('gallery') }}" method="GET">
+        <input type="text" name="search" placeholder="🔍 Search" value="{{ $search }}">
+    </form>
 </div>
 
 <x-app-layout>

@@ -64,18 +64,22 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
     }
 
-    public function destroy()
+    public function destroy($art_id)
     {
-        $user = Auth::user();
-        Auth::logout();
+        $art = Art::findOrFail($art_id);
 
-        if ($user->profile_image && Storage::exists('profile_images/' . $user->profile_image)) {
-            Storage::delete('profile_images/' . $user->profile_image);
+
+        if (Auth::user()->role && Auth::user()->role->name === 'admin' || $art->users->first()->id === Auth::id()) {
+            if (Storage::exists('arts/' . $art->art_picture)) {
+                Storage::delete('arts/' . $art->art_picture);
+            }
+
+            $art->delete();
+
+            return redirect()->route('art.index')->with('success', 'Art deleted successfully.');
         }
 
-        $user->delete();
-
-        return redirect('/')->with('success', 'Account deleted successfully.');
+        return redirect()->route('art.index')->with('error', 'You do not have permission to delete this art.');
     }
 
     public function updateImage(Request $request)
@@ -99,24 +103,20 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile image updated successfully.');
     }
 
-    public function likeArt(Request $request, $artId)
+    public function show()
     {
-        $userId = Auth::id();
+        $user = auth()->user();
 
-        $userArt = UserArt::where('users_id', $userId)->where('art_id', $artId)->first();
+        $arts = Art::whereHas('usersArt', function ($query) use ($user) {
+            $query->where('users_id', $user->id)
+                ->where('ownership_status', true);
+        })->get();
 
-        if ($userArt) {
-            $userArt->like_status = !$userArt->like_status;
-            $userArt->save();
-        } else {
-            UserArt::create([
-                'users_id' => $userId,
-                'art_id' => $artId,
-                'like_status' => true,
-            ]);
-        }
+        $likedArts = Art::whereHas('usersArt', function ($query) use ($user) {
+            $query->where('users_id', $user->id)
+                ->where('like_status', 1);
+        })->get();
 
-        return back()->with('success', 'Your like has been updated.');
+        return view('profile.index', compact('user', 'arts', 'likedArts'));
     }
-
 }

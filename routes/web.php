@@ -7,9 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\ArtController::class, 'getTopLikedArtworks'])->name('dashboard');
 
 Route::get('/about', function () {
     return view('about.index');
@@ -18,7 +16,7 @@ Route::get('/about', function () {
 Route::get('/gallery', [\App\Http\Controllers\ArtController::class, 'view'])->name('gallery');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.update_image');
@@ -31,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('art/{art}/edit', [\App\Http\Controllers\ArtController::class, 'edit'])->name('art.edit');
     Route::put('art/{art}', [\App\Http\Controllers\ArtController::class, 'update'])->name('art.update');
     Route::post('/art/{art}/like', [\App\Http\Controllers\ArtController::class, 'like'])->name('art.like');
+
 
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home-list');
     Route::get('/user', [\App\Http\Controllers\UserController::class, 'index'])->name('user-list');

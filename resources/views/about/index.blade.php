@@ -5,10 +5,6 @@
     GALLERY
 </div>
 <br>
-<div class="search-section">
-    <input type="text" placeholder="🔍 Search">
-</div>
-<br>
 <x-app-layout>
     <div class="about-image">
         <img src="{{ asset('image/about_image.png') }}" alt="Banner Image">

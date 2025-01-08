@@ -5,16 +5,12 @@
 <div class="top-section">
     PROFILE
 </div>
-
-<div class="search-section">
-    <input type="text" placeholder="🔍 Search">
-</div>
+<br>
 <x-app-layout>
     <div class="profile-container">
         <div class="profile-main">
             <div class="profile-header">
                 <div class="profile-info">
-                    <!-- Form for updating profile image -->
                     <form id="profile-image-form" action="{{ route('profile.update_image') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
@@ -31,34 +27,52 @@
                     </div>
                 </div>
                 <div class="profile-buttons">
-                    <a href="{{route('art.index')}}" class="button-link">
+                    <a href="{{ route('art.index') }}" class="button-link">
                         <button class="upload-button">UPLOAD</button>
                     </a>
-                    <a href="{{route('profile.edit')}}" class="button-link">
+                    <a href="{{ route('profile.edit') }}" class="button-link">
                         <button class="edit-button">EDIT</button>
                     </a>
                 </div>
             </div>
 
             <div class="content-section">
-                <div class="featured-art">
-                    <h3>Featured Art</h3>
-                    <div class="art-gallery">
-                        <!-- Loop through the arts to display images -->
-                        @foreach ($arts as $art)
-                            <div class="gallery-item">
-                                <a href="{{ route('art.show', $art->art_id) }}">
-                                    <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
-                                </a>
-                                <p>{{ $art->name }}</p>
+                <div class="art-sections">
+                    <div class="main-content">
+                        <div class="featured-art">
+                            <h3>Featured Art</h3>
+                            <div class="art-gallery">
+                                @foreach ($arts as $art)
+                                    <div class="gallery-item">
+                                        <a href="{{ route('art.show', $art->art_id) }}">
+                                            <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
+                                        </a>
+                                        <p>{{ $art->name }}</p>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endforeach
-                    </div>
-                </div>
+                        </div>
 
-                <div class="about-section">
-                    <h3>About</h3>
-                    <p>{{ $user->about }}</p>
+                        <div class="liked-art">
+                            <h3>Loved Art</h3>
+                            <div class="art-gallery">
+                                @foreach ($likedArts as $art)
+                                    <div class="gallery-item">
+                                        <a href="{{ route('art.show', $art->art_id) }}">
+                                            <img src="{{ asset('storage/' . $art->art_picture) }}" alt="{{ $art->name }}">
+                                        </a>
+                                        <p>{{ $art->name }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About section on the right -->
+                    <div class="about-section">
+                        <h3>About</h3>
+                        <p>{{ $user->about }}</p>
+                    </div>
                 </div>
             </div>
         </div>

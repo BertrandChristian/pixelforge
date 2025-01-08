@@ -14,18 +14,24 @@ class ArtController extends Controller
      */
     public function index()
     {
-//        $arts = Art::where('users_id', Auth::id())->get();
         $arts = Art::select('art_id', 'name', 'art_picture')->get();
-
 
         return view('art.index', compact('arts'));
     }
 
-    public function view()
+    public function view(Request $request)
     {
-        $arts = Art::all();
+//        $arts = Art::all();
 
-        return view('gallery', compact('arts'));
+        $search = $request->input('search');
+
+        $arts = Art::select('art_id', 'name', 'art_picture')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+        return view('gallery', compact('arts', 'search'));
     }
 
     /**
@@ -52,7 +58,10 @@ class ArtController extends Controller
         $art->description = $request->input('description');
         $art->save();
 
-        $art->users()->attach(Auth::id(), ['like_status' => false]);
+        Auth::user()->arts()->attach($art->art_id, [
+            'ownership_status' => 1,
+            'like_status' => false,
+        ]);
 
         return redirect()->route('art.index')->with('success', 'Art uploaded successfully!');
     }
@@ -89,6 +98,7 @@ class ArtController extends Controller
 
         return view('art.detail', compact('art', 'likeCount', 'userLikes'));
     }
+
 
     public function update(Request $request, $art_id)
     {
@@ -137,5 +147,29 @@ class ArtController extends Controller
 
         return redirect()->route('art.show', $art_id)->with('success', 'Like status updated!');
     }
+
+
+    public function getTopLikedArtworks()
+    {
+        $arts = Art::select('art.*')
+            ->selectSub(function ($query) {
+                $query->selectRaw('count(*)')
+                    ->from('users_art')
+                    ->whereColumn('art.art_id', '=', 'users_art.art_art_id')
+                    ->where('users_art.like_status', true);
+            }, 'like_count')
+            ->orderByDesc('like_count')
+            ->limit(3)
+            ->get();
+
+        if ($arts->isEmpty()) {
+            $arts = Art::orderByDesc('created_at')
+                ->limit(3)
+                ->get();
+        }
+
+        return view('dashboard', compact('arts'));
+    }
+
 
 }

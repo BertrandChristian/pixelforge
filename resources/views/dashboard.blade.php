@@ -5,10 +5,6 @@
     HOME
 </div>
 <br>
-<div class="search-section">
-    <input type="text" placeholder="🔍 Search">
-</div>
-<br>
 <x-app-layout>
     <div class="home-image">
         <img src="{{ asset('image/bloom.gif') }}" alt="Banner Image">
@@ -19,9 +15,13 @@
     </div>
 
     <div class="spotlight-images">
-        <img src="{{ asset('image/titan.jpg') }}" alt="Spotlight Image 1">
-        <img src="{{ asset('image/temple.jpg') }}" alt="Spotlight Image 2">
-        <img src="{{ asset('image/loginimage2.jpg') }}" alt="Spotlight Image 3">
+        @foreach ($arts as $art)
+            <div class="spotlight-image-item">
+                <img src="{{ asset('storage/' . $art->art_picture) }}" alt="Spotlight Image" class="spotlight-image">
+                <p>{{ $art->name }}</p>
+                <p><strong>{{ $art->like_count }}</strong> Likes</p>
+            </div>
+        @endforeach
     </div>
 
     <div class="news-section">
