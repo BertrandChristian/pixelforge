@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Home')
+@section('title', 'About')
 <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 <div class="top-section">
-    GALLERY
+    ABOUT
 </div>
 <br>
 <x-app-layout>
