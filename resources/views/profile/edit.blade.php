@@ -30,7 +30,6 @@
                 <textarea id="about" name="about" class="form-textarea">{{ old('about', Auth::user()->about) }}</textarea>
 
                 <!-- Update Email Section -->
-{{--                <label for="email" class="form-label">Email</label>--}}
                 <input type="email" id="email" name="email" class="form-input" value="{{ old('email', Auth::user()->email) }}" hidden readonly>
 
                 <!-- Update Password Section -->
@@ -47,11 +46,12 @@
             </div>
         </form>
 
-        <!-- Delete Account Section -->
-        <form action="{{ route('profile.destroy') }}" method="POST" class="delete-account-form">
+        <form action="{{ route('user-delete', ['user' => $user->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
             @csrf
             @method('DELETE')
-            <button type="submit" class="delete-account-button">Delete Account</button>
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash"></i> DELETE
+            </button>
         </form>
     </div>
 </x-app-layout>
